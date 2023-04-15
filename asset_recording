@@ -1,0 +1,107 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package assetmanagement;
+import java.sql.*;
+/**
+ *
+ * @author ccslearner
+ */
+public class assets {
+    public int      asset_id;
+    public String   asset_name;
+    public String   asset_description;
+    public String   acquisition_date;
+    public boolean  forrent;
+    public float    asset_value;
+    public String   type_asset;
+    public String   status;
+    public double    loc_lattitude;
+    public double    loc_longitude;
+    public String   hoa_name;
+    public int      enclosing_asset;
+    
+    public assets() {
+        asset_id = 0;
+        asset_name = "";
+        asset_description = "";
+        acquisition_date = "";
+        forrent = false;
+        asset_value = 0;
+        type_asset = "";
+        status = "";
+        loc_lattitude = 0;
+        loc_longitude = 0;
+        hoa_name = "";
+        enclosing_asset = 0;
+    }
+    
+    public int add_record() {
+        try {
+            Connection conn;
+            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/HOADB?useTimezone=true&serverTimezone=UTC&user=root&password=12345678&useSSL=false");
+            PreparedStatement pstmt = conn.prepareStatement("INSERT INTO assets (asset_id, asset_name, asset_description, acquisition_date, forrent, asset_value, type_asset, status, loc_lattitude, loc_longiture, hoa_name, enclosing_asset) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+            pstmt.setInt        (1, asset_id);
+            pstmt.setString     (2, asset_name);
+            pstmt.setString     (3, asset_description);
+            pstmt.setString     (4, acquisition_date);
+            pstmt.setBoolean    (5, forrent);
+            pstmt.setFloat      (6, asset_value);
+            pstmt.setString     (7, type_asset);
+            pstmt.setString     (8, status);
+            pstmt.setDouble     (9, loc_lattitude);
+            pstmt.setDouble     (10, loc_longitude);
+            pstmt.setString     (11, hoa_name);
+            pstmt.setInt        (12, enclosing_asset);
+            pstmt.executeUpdate();
+            pstmt.close();
+            conn.close();
+            return 1;
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+            return 0;
+        }
+    }
+    
+    public static void main(String[] args) {
+        assets ASSETS = new assets();
+        ASSETS.asset_id = 5011;
+        ASSETS.asset_name = "Vase";
+        ASSETS.asset_description = "Vase";
+        ASSETS.acquisition_date = "2022-03-02";
+        ASSETS.forrent = false;
+        ASSETS.asset_value = 350;
+        ASSETS.type_asset = "F";
+        ASSETS.status = "W";
+        ASSETS.loc_lattitude = 101.4350;
+        ASSETS.loc_longitude = 101.3330;
+        ASSETS.hoa_name = "SJH";
+        ASSETS.enclosing_asset = 5006;
+        ASSETS.add_record();
+       
+        
+        
+        //PRODUCTS.pcode = 9999;
+        //PRODUCTS.pname = "Mug";
+        //PRODUCTS.qty   = 200;
+        //PRODUCTS.add_record();
+        
+        //PRODUCTS.pcode = 9999;
+        //PRODUCTS.pname = "Chair";
+        //PRODUCTS.qty   = 300;
+        //PRODUCTS.mod_record();
+        
+        //PRODUCTS.pcode = 9999;
+        //PRODUCTS.del_record();
+        
+        //PRODUCTS.pcode = 7001;
+        //PRODUCTS.view_record();
+        //System.out.println(PRODUCTS.pname);
+        //System.out.println(PRODUCTS.qty);
+    }
+}
+
+
+
